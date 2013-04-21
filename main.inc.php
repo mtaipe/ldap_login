@@ -12,9 +12,8 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 add_event_handler('try_log_user','ldap_login', 0, 4);
 
-function ldap_login($username, $password, $remember_me, $success)
+function ldap_login($success, $username, $password, $remember_me)
 {
-  #pwg_session_gc();
 
   global $conf;
     $query = '
@@ -44,7 +43,6 @@ $obj->load_config();
 
 // Eléments d'authentification LDAP
 $ldaprdn  = $obj->config['pref'].$user.$obj->config['basedn'];     // DN ou RDN LDAP
-//$ldappass = 'password';  // Mot de passe associé
 
 // Connexion au serveur LDAP
 $ldapconn = ldap_connect($obj->config['host'])
@@ -55,14 +53,14 @@ ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 if ($ldapconn) {
 
     // Connexion au serveur LDAP
-    $ldapbind = ldap_bind($ldapconn, $ldaprdn, $pass);
+    $ldapbind = @ldap_bind($ldapconn, $ldaprdn, $pass);
     
     // Vérification de l'authentification
     if ($ldapbind) {
-       // echo "Connexion LDAP réussie...";
+       // Connexion LDAP réussie
 	return true;
     } else {
-       // echo "Connexion LDAP échouée...";
+       // Connexion LDAP échouée
       return false;
     }
 
@@ -82,11 +80,10 @@ class Ldap
             $this->config = $c;
         }
  
-        if ( !isset($this->config)
-            or empty($this->config['Test']) )
+        if ( !isset($this->config))
         {
             $this->config['host']	= 'localhost';
-	    $this->config['basedn']	= ',ou=utilisateurs,dc=22decembre,dc=eu';
+	    $this->config['basedn']	= ',ou=people,dc=example,dc=com';
             $this->config['pref']	= 'uid=';
             $this->save_config();
         }
