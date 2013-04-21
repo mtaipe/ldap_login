@@ -10,7 +10,7 @@ Author URI:http://www.22decembre.eu
 
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
-add_event_handler('try_login','ldap_login', 0, 4);
+add_event_handler('try_log_user','ldap_login', 0, 4);
 
 function ldap_login($username, $password, $remember_me, $success)
 {
