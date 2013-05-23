@@ -1,16 +1,12 @@
 TODO :
 
-Translate the whole plugin to english and furnish lang files or another way to make the plugin, at least bilingual.
-Create a "check" function to test the ldap auth before using it !
-Enable use of common auth along with ldap one, as, currently, they are not compatible.
+furnish lang files.
 Enable use of other elements to auth (typically : mail) rather than just username.
 Create INSTALL file and procedure.
 
 Choses à faire :
 
 Alleger et verifier la pertinence du code.
-Traduire le plugin (code, commentaires du code, zone d'administration piwigo) et trouver un moyen pour que le plugin soit à minima bilingue.
-Créer une fonction de verification, pour tester que les paramètres ldap sont bons.
-Résoudre le conflit dans le code coeur de piwigo et du plugin pour l'utilisation de l'authentification de base et ldap.
+Traduire le plugin (code, commentaires du code, zone d'administration piwigo).
 Permettre l'authentification avec autre chose qu'un nom d'utilisateur (typiquement : mail).
 Créer un fichier d'installation.

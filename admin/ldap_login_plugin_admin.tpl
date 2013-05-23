@@ -1,24 +1,65 @@
+{literal}
+<style>
+label
+{
+    display: block;
+    width: 250px;
+    float: left;
+}
+</style>
+{/literal}
+
 <div class="titrePage">
-  <h2>Ldap_Login PlugIn</h2>
+	<h2>{'Ldap_Login PlugIn'|@translate}</h2>
 </div>
 
-<p>Configuration du plugin Ldap_Login</p>
+<p>{'Ldap_Login Plugin configuration'|@translate}</p>
 
 <form method="post" action="{$TESTPLUGIN_F_ACTION}" class="general">
 <fieldset>
-	<legend>Ldap_Login PlugIn</legend>
-    <label>Hote du serveur Ldap
-	   <input type="text" name="HOST" value="{$HOST}" />
-    </label>
-    <br />
-    <label>Arbre ldap à explorer : basedn = ",ou=utilisateurs,dc=22decembre,dc=eu". L'arbre doit commencer par une virgule !
-	   <input type="text" name="BASEDN" value="{$BASEDN}" />
-    </label>
-    <br />
-        <label>prefixe à utiliser. Les plus communs sont "uid=".
-	   <input type="text" name="PREF" value="{$PREF}" />
-    </label>
+	<legend>{'Ldap_Login PlugIn'|@translate}</legend>
+	
+	{if (!extension_loaded('ldap'))}
+		<p style="color:red;">{'Warning: LDAP Extension missing.'|@translate}</p>
+		<br />
+	{/if}
+	
+	{if (!empty($LD_CHECK_LDAP))}
+ 		{$LD_CHECK_LDAP}
+ 		<br />
+	{/if}
+	
+    <label for="host">{'Ldap server host :'|@translate}</label><input type="text" id="host" name="HOST" value="{$HOST}" />
+    <br /><br />
+
+	<label for="ld_use_ssl">{'Secure connexion ?'|@translate}</label>
+	{if $USE_SSL == 'true'}	
+		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" checked />
+	{else}
+		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" />
+	{/if}
+	<br /><br />
+    
+    <label for="port">{'Ldap port :'|@translate}</label><input type="text" id="port" name="PORT" value="{$PORT}" />
+    <br /><br />
+    
+    <label for="basedn">{'Base DN :'|@translate}</label><input type="text" id="basedn" name="BASEDN" value="{$BASEDN}" />
+    <br /><br />
+       
+    <label for="ld_attr">{'Attribute corresponding to the user name :'|@translate}</label><input type="text" id="ld_attr" name="LD_ATTR" value="{$LD_ATTR}" />
+    <br /><br />
+    
+    <p>{'Let the following fields blank if the ldap accept anonymous connections.'|@translate}</p>
+	<label for="ld_binddn">{'Bind DN :'|@translate}</label><input type="text" id="ld_binddn" name="LD_BINDDN" value="{$LD_BINDDN}" />
+    <br /><br />
+    
+    <label for="ld_bindpw">{'Bind password :'|@translate}</label><input type="password" id="ld_bindpw" name="LD_BINDPW" />
+    <br /><br />
+    
 </fieldset>
  
-<p><input type="submit" value="Enregistrer" name="submit" /></p>
+<p>
+<input type="submit" value="{'Test Settings'|@translate}" name="check_ldap" /><br /><br />
+<input type="submit" value="{'Save'|@translate}" name="submit" />
+</p>
 </form>

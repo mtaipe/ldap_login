@@ -1,110 +1,65 @@
 <?php
 /*
 Plugin Name: Ldap_Login
-Version: 0.1
+Version: 0.3
 Description: Permet de se logger via une authentification ldap
 Plugin URI: http://www.22decembre.eu
 Author: 22decembre
 Author URI:http://www.22decembre.eu
 */
-
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+
+define('LDAP_LOGIN_PATH' , PHPWG_PLUGINS_PATH.basename(dirname(__FILE__)).'/');
+include_once(LDAP_LOGIN_PATH.'/class.ldap.php');
+
+add_event_handler('init', 'ldap_login_load_language');
+function ldap_login_load_language(){
+	/*
+	if (!defined('IN_ADMIN') or !IN_ADMIN){
+		load_language('admin.lang');
+	}
+	*/
+
+	load_language('plugin.lang', LDAP_LOGIN_PATH);
+}
 
 add_event_handler('try_log_user','ldap_login', 0, 4);
 
-function ldap_login($success, $username, $password, $remember_me)
-{
+function ldap_login($success, $username, $password, $remember_me){
 
-  global $conf;
+	global $conf;
+
+	$obj = new Ldap();
+	$obj->load_config();
+	$obj->ldap_conn() or die("Impossible de se connecter au serveur LDAP: ".$obj->getErrorString());
+
+	if (!empty($obj->config['ld_binddn']) && !empty($obj->config['ld_bindpw'])){ // if empty ld_binddn, anonymous search
+		// authentication with rootdn and rootpw for dn search
+		if (!$obj->ldap_bind_as($obj->config['ld_binddn'],$obj->config['ld_bindpw'])){
+			return false;
+		}
+	}
+
+	if (!$obj->ldap_bind_as($username,$password)){ // bind with userdn
+		trigger_action('login_failure', stripslashes($username));
+		return false; // wrong password
+	}
+
+	// search user in database
     $query = '
 SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\'
 ;';
 
   $row = pwg_db_fetch_assoc(pwg_query($query));
 
-    // Vérification de l'authentification
-    if (ldap_log($username,$password)) {
-
-	log_user($row['id'], $remember_me);
-	trigger_action('login_success', stripslashes($username));
-	return true;
-	}
-    else
-    {
-    trigger_action('login_failure', stripslashes($username));
-    return false;
-    }
-}
-
-function ldap_log($user,$pass)
-{
-$obj = new Ldap();
-$obj->load_config();
-
-// Eléments d'authentification LDAP
-$ldaprdn  = $obj->config['pref'].$user.$obj->config['basedn'];     // DN ou RDN LDAP
-
-// Connexion au serveur LDAP
-$ldapconn = ldap_connect($obj->config['host'])
-    or die("Impossible de se connecter au serveur LDAP.");
-    
-ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-
-if ($ldapconn) {
-
-    // Connexion au serveur LDAP
-    $ldapbind = @ldap_bind($ldapconn, $ldaprdn, $pass);
-    
-    // Vérification de l'authentification
-    if ($ldapbind) {
-       // Connexion LDAP réussie
-	return true;
-    } else {
-       // Connexion LDAP échouée
-      return false;
-    }
-
-}
-}
-
-class Ldap
-{
-    var $config;
-    function load_config()
-    {
-        $x = @file_get_contents( dirname(__FILE__).'/data.dat' );
-        if ($x!==false)
-        {
-            $c = unserialize($x);
-            // do some more tests here
-            $this->config = $c;
-        }
- 
-        if ( !isset($this->config))
-        {
-            $this->config['host']	= 'localhost';
-	    $this->config['basedn']	= ',ou=people,dc=example,dc=com';
-            $this->config['pref']	= 'uid=';
-            $this->save_config();
-        }
-    }
-    function save_config()
-    {
-        $file = fopen( dirname(__FILE__).'/data.dat', 'w' );
-        fwrite($file, serialize($this->config) );
-        fclose( $file );
-    }
-
-    function ldap_admin_menu($menu)
-    {
-    array_push($menu,
-	array(
-	'NAME' => 'Ldap Login',
-	'URL' => get_admin_plugin_menu_link(dirname(__FILE__).'/admin/ldap_login_plugin_admin.php') )
-	);
-      
-    return $menu;
-    }
+  	if (!empty($row['id'])) {
+  		log_user($row['id'], $remember_me);
+  		trigger_action('login_success', stripslashes($username));
+  		return true;
+  	} else {
+  		trigger_action('login_failure', stripslashes($username));
+  		return false;
+  	}
 }
 
 $ldap = new Ldap();
