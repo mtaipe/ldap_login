@@ -40,7 +40,6 @@ class Ldap {
 		return true;
 	}
 
-
 	function load_config()
 	{
 		$x = @file_get_contents( LDAP_LOGIN_PATH.'data.dat' );
@@ -80,7 +79,6 @@ class Ldap {
 		return $menu;
 	}
 
-
 	public function ldap_conn(){
 
 		if ($this->config['use_ssl'] == 1){
@@ -101,11 +99,15 @@ class Ldap {
 	public function getErrorString(){
 		return ldap_err2str(ldap_errno($this->cnx));
 	}
+	
+	// return the name ldap understand
+	public function ldap_name($name){
+	return $this->config['ld_attr'].'='.$name.','.$this->config['basedn'];
+	}
 
 	// authentication
 	public function ldap_bind_as($user,$user_passwd){
-		$userdn = $this->config['ld_attr'].'='.$user.','.$this->config['basedn'];
-		if (@ldap_bind($this->cnx,$userdn,$user_passwd)){
+		if (@ldap_bind($this->cnx,$this->ldap_name($user),$user_passwd)){
 			return true;
 		}
 		return false;

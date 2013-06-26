@@ -13,21 +13,16 @@ label
 	<h2>{'Ldap_Login PlugIn'|@translate}</h2>
 </div>
 
-<p>{'Ldap_Login Plugin configuration'|@translate}</p>
-
 <form method="post" action="{$TESTPLUGIN_F_ACTION}" class="general">
 <fieldset>
-	<legend>{'Ldap_Login PlugIn'|@translate}</legend>
+	<legend>{'Ldap_Login Configuration'|@translate}</legend>
 	
 	{if (!extension_loaded('ldap'))}
 		<p style="color:red;">{'Warning: LDAP Extension missing.'|@translate}</p>
 		<br />
 	{/if}
 	
-	{if (!empty($LD_CHECK_LDAP))}
- 		{$LD_CHECK_LDAP}
- 		<br />
-	{/if}
+	
 	
     <label for="host">{'Ldap server host :'|@translate}</label><input type="text" id="host" name="HOST" value="{$HOST}" />
     <br /><br />
@@ -59,7 +54,28 @@ label
 </fieldset>
  
 <p>
-<input type="submit" value="{'Test Settings'|@translate}" name="check_ldap" /><br /><br />
-<input type="submit" value="{'Save'|@translate}" name="submit" />
+<input type="submit" value="{'Save'|@translate}" name="save" />
 </p>
+</form>
+
+<br />
+
+<form method="post" action="{$TESTPLUGIN_CHECK}" class="general">
+<fieldset>
+<legend>{'Ldap_Login Test'|@translate}</legend>
+<p>{'Test Credentials'|@translate}</p>
+
+<label for="username">{'Username :'|@translate}</label><input type="text" id="username" name="USERNAME" value="{$USERNAME}" />
+    <br /><br />
+       
+    <label for="ld_attr">{'Your password :'|@translate}</label><input type="password" id="password" name="PASSWORD" value="{$PASSWORD}" />
+    <br /><br />
+
+{if (!empty($LD_CHECK_LDAP))}
+ 		{$LD_CHECK_LDAP}
+ 		<br />
+	{/if}
+
+</fieldset>
+<p><input type="submit" value="{'Test Settings'|@translate}" name="check_ldap" /></p>
 </form>

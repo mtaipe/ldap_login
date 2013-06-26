@@ -14,12 +14,6 @@ include_once(LDAP_LOGIN_PATH.'/class.ldap.php');
 
 add_event_handler('init', 'ldap_login_load_language');
 function ldap_login_load_language(){
-	/*
-	if (!defined('IN_ADMIN') or !IN_ADMIN){
-		load_language('admin.lang');
-	}
-	*/
-
 	load_language('plugin.lang', LDAP_LOGIN_PATH);
 }
 
@@ -45,7 +39,7 @@ function ldap_login($success, $username, $password, $remember_me){
 		return false; // wrong password
 	}
 
-	// search user in database
+	// search user in piwigo database
     $query = '
 SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\'
 ;';
