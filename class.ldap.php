@@ -50,10 +50,14 @@ class Ldap {
 			$this->config = $c;
 		}
 
+		if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
+		if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
+		
 		if ( !isset($this->config))
 		{
-			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
 			if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
+			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
+			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
 			if (empty($this->config['basedn'])){	$this->config['basedn'] = 'ou=people,dc=example,dc=com'; }
 			if (empty($this->config['ld_attr'])){   $this->config['ld_attr']  = 'uid'; }
 			//$this->save_config();
