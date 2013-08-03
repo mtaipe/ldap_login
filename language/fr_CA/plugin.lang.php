@@ -19,12 +19,14 @@ $lang['Warning: LDAP Extension missing.'] = 'Attention: Extension LDAP manquante
 $lang['Ldap server host :'] = 'Hote du serveur Ldap :';
 $lang['Secure connexion ?'] = 'Connexion sécurisée (ldaps) :';
 $lang['Ldap port :'] = 'Port a utiliser :';
-$lang['Base DN :'] = 'Arbre ldap à explorer :';
+$lang['Base DN :'] = 'Arbre ldap à explorer (ex : ou=users,dc=exemple,dc=com) :';
 $lang['Ldap filter :'] = 'Filtre de recherche :';
 $lang['Attribute corresponding to the user name :'] = 'Attribut correspondant au nom d\'utilisateur :';
 $lang['Let the following fields blank if the ldap accept anonymous connections.'] = 'Laissez les champs ci-dessous vide si le ldap accepte les connexions anonymes.';
 $lang['Bind DN :'] = 'Bind DN :';
 $lang['Bind password :'] = 'Bind password :';
-$lang['Test Settings'] = 'Tester les paramètres';
+$lang['Test Settings'] = 'Tester les paramètres après les avoir enregistrés.';
 $lang['Save'] = 'Enregistrer';
+$lang['If empty, standard protocol ports will be used by the software.'] = 'Les ports standarts seront utilisés si ce champs est laissé vide.';
+$lang['If empty, localhost will be used in configuration.'] = 'Localhost sera utilisé si ce champs est laissé vide.';
 ?>

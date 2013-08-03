@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Ldap_Login
-Version: 0.3
+Version: 0.4
 Description: Permet de se logger via une authentification ldap
-Plugin URI: http://www.22decembre.eu
+Plugin URI: http://www.22decembre.eu/2013/08/03/piwigo-ldap-login-v4/
 Author: 22decembre
-Author URI:http://www.22decembre.eu
+Author URI: http://www.22decembre.eu
 */
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
@@ -27,12 +27,12 @@ function ldap_login($success, $username, $password, $remember_me){
 	$obj->load_config();
 	$obj->ldap_conn() or die("Impossible de se connecter au serveur LDAP: ".$obj->getErrorString());
 
-	if (!empty($obj->config['ld_binddn']) && !empty($obj->config['ld_bindpw'])){ // if empty ld_binddn, anonymous search
+	/* if (!empty($obj->config['ld_binddn']) && !empty($obj->config['ld_bindpw'])){ // if empty ld_binddn, anonymous search
 		// authentication with rootdn and rootpw for dn search
 		if (!$obj->ldap_bind_as($obj->config['ld_binddn'],$obj->config['ld_bindpw'])){
 			return false;
 		}
-	}
+	} */
 
 	if (!$obj->ldap_bind_as($username,$password)){ // bind with userdn
 		trigger_action('login_failure', stripslashes($username));

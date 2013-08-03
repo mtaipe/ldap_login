@@ -23,7 +23,7 @@ label
 	{/if}
 	
 	
-	
+    <p>{'If empty, localhost will be used in configuration.'|@translate}</p>
     <label for="host">{'Ldap server host :'|@translate}</label><input type="text" id="host" name="HOST" value="{$HOST}" />
     <br /><br />
 
@@ -35,6 +35,7 @@ label
 	{/if}
 	<br /><br />
     
+    <p>{'If empty, standard protocol ports will be used by the software.'|@translate}</p>
     <label for="port">{'Ldap port :'|@translate}</label><input type="text" id="port" name="PORT" value="{$PORT}" />
     <br /><br />
     
@@ -45,7 +46,7 @@ label
     <br /><br />
     
     <p>{'Let the following fields blank if the ldap accept anonymous connections.'|@translate}</p>
-	<label for="ld_binddn">{'Bind DN :'|@translate}</label><input type="text" id="ld_binddn" name="LD_BINDDN" value="{$LD_BINDDN}" />
+	<label for="ld_binddn">{'Bind DN, field in full ldap style :'|@translate}</label><input type="text" id="ld_binddn" name="LD_BINDDN" value="{$LD_BINDDN}" />
     <br /><br />
     
     <label for="ld_bindpw">{'Bind password :'|@translate}</label><input type="password" id="ld_bindpw" name="LD_BINDPW" />

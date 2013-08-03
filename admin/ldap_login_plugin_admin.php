@@ -34,17 +34,6 @@ $error = $me->check_ldap();
 	else {
 	$template->assign('LD_CHECK_LDAP','<p style="color:red;">Error :'.$error.' test '.$me->config['uri'].' '.$check.'</p>');
 	}
-
-	
-/*	$error = $me->check_ldap();
-	
-	if ($error !== true){
-		$template->assign('LD_CHECK_LDAP','<p style="color:red;">'.$error.' test '.$me->config['uri']..'</p>');
-	} else {
-		$template->assign('LD_CHECK_LDAP','<p style="color:green;">Configuration LDAP OK</p>');
-	}
-	
-*/
 }
 
 global $template;

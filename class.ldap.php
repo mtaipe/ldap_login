@@ -50,19 +50,17 @@ class Ldap {
 			$this->config = $c;
 		}
 
-		if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
+			// if port is empty, I count on the software to care of it !
+		//if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
 		if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
 		
 		if ( !isset($this->config))
 		{
-			if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
-			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
+			//if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
 			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
 			if (empty($this->config['basedn'])){	$this->config['basedn'] = 'ou=people,dc=example,dc=com'; }
 			if (empty($this->config['ld_attr'])){   $this->config['ld_attr']  = 'uid'; }
-			//$this->save_config();
 		}
-		//$this->write_log('$this->config '.print_r($this->config,true));
 	}
 
 	function save_config()
@@ -86,17 +84,39 @@ class Ldap {
 	public function ldap_conn(){
 
 		if ($this->config['use_ssl'] == 1){
+			if (empty($this->config['port'])){
+				$this->config['uri'] = 'ldaps://'.$this->config['host'];
+			}
+			else {
 			$this->config['uri'] = 'ldaps://'.$this->config['host'].':'.$this->config['port'];
+			}
+		}
+		
+		// now, it's without ssl
+		else {
+			if (empty($this->config['port'])){
+				$this->config['uri'] = 'ldap://'.$this->config['host'];
 			}
 			else {
 				$this->config['uri'] = 'ldap://'.$this->config['host'].':'.$this->config['port'];
 			}
+		}
 
 		if ($this->cnx = @ldap_connect($this->config['uri'])){
 			@ldap_set_option($this->cnx, LDAP_OPT_PROTOCOL_VERSION, 3); // LDAPv3 if possible
 			return true;
 		}
 		return false;
+		
+		// connect with rootdn in case not anonymous.
+		if (!empty($obj->config['ld_binddn']) && !empty($obj->config['ld_bindpw'])){ // if empty ld_binddn, anonymous work
+		
+		// authentication with rootdn and rootpw for dn search
+		// carefull ! rootdn should be in full ldap style ! Nothing is supposed (to be one of the users the plugin auth…).
+		if (@ldap_bind($obj->config['ld_binddn'],$obj->config['ld_bindpw'])){
+		return false;
+		}
+	}
 	}
 
 	// return ldap error
@@ -118,7 +138,7 @@ class Ldap {
 	}
 
 	// return userdn (and username) for authentication
-	public function ldap_search_dn($to_search){
+	/* public function ldap_search_dn($to_search){
 		$filter = str_replace('%s',$to_search,$this->config['ld_filter']);
 		//$this->write_log('$filter '.$filter);
 
@@ -129,7 +149,7 @@ class Ldap {
 			}
 		}
 		return false;
-	}
+	} */
 
 
 	public function ldap_check_basedn(){
