@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Ldap_Login
-Version: 0.4
+Version: 1.0
 Description: Permet de se logger via une authentification ldap
 Plugin URI: http://www.22decembre.eu/2013/08/03/piwigo-ldap-login-v4/
 Author: 22decembre
@@ -19,7 +19,16 @@ function ldap_login_load_language(){
 
 add_event_handler('try_log_user','ldap_login', 0, 4);
 
+function random_password( $length = 8 ) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+    $password = substr( str_shuffle( $chars ), 0, $length );
+    return $password;
+}
+
 function ldap_login($success, $username, $password, $remember_me){
+
+$advertise_admin_new_ldapuser = False;
+$send_password_by_mail_ldap = False;
 
 	global $conf;
 
@@ -40,19 +49,31 @@ function ldap_login($success, $username, $password, $remember_me){
 	}
 
 	// search user in piwigo database
-    $query = '
-SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\'
-;';
+$query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\' ;';
 
   $row = pwg_db_fetch_assoc(pwg_query($query));
 
+  // if query is not empty, it means everything is ok and we can continue, auth is done !
   	if (!empty($row['id'])) {
   		log_user($row['id'], $remember_me);
   		trigger_action('login_success', stripslashes($username));
   		return true;
-  	} else {
-  		trigger_action('login_failure', stripslashes($username));
-  		return false;
+  	}
+  	
+  	// if query is empty but ldap auth is done, we can create a piwigo user if it's said so !
+  	else {
+		echo "creation";
+  		//trigger_action('login_failure', stripslashes($username));
+  		//return false;
+  		//register_user($_POST['login'],$_POST['password'],$_POST['mail_address'],true,$page['errors'],isset($_POST['send_password_by_mail']));
+  		if ($obj->ldap_mail($username)) {
+			$mail = $obj->ldap_mail($username);
+			echo $mail;
+  		}
+  		else {
+			$mail = $username.'@localhost';
+  		}
+  		register_user($username,random_password(8),$mail,$advertise_admin_new_ldapuser,$page['errors'],$send_password_by_mail_ldap);
   	}
 }
 

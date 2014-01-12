@@ -137,6 +137,19 @@ class Ldap {
 		return false;
 	}
 
+	public function ldap_mail($name){
+	
+		echo $this->cnx;
+		echo $this->ldap_name($name);
+		$sr=@ldap_read($this->cnx, $this->ldap_name($name), "(objectclass=*)", array('mail'));
+		$entry = @ldap_get_entries($this->cnx, $sr);
+		
+		if (!empty($entry[0]['mail'])) {
+			return $entry[0]['mail'][0];
+			}
+		return False;
+	}
+	
 	// return userdn (and username) for authentication
 	/* public function ldap_search_dn($to_search){
 		$filter = str_replace('%s',$to_search,$this->config['ld_filter']);
