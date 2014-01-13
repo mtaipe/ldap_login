@@ -29,7 +29,7 @@ label
     <br /><br />
 
 	<label for="ld_use_ssl">{'Secure connexion ?'|@translate}</label>
-	{if $USE_SSL == 'true'}	
+	{if $USE_SSL }
 		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" checked />
 	{else}
 		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" />

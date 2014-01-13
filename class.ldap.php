@@ -138,8 +138,8 @@ class Ldap {
 
 	public function ldap_mail($name){
 	
-		echo $this->cnx;
-		echo $this->ldap_name($name);
+		//echo $this->cnx;
+		//echo $this->ldap_name($name);
 		$sr=@ldap_read($this->cnx, $this->ldap_name($name), "(objectclass=*)", array('mail'));
 		$entry = @ldap_get_entries($this->cnx, $sr);
 		

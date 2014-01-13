@@ -6,6 +6,14 @@ $template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/co
 
 $me = get_plugin_data($plugin_id);
 
+$template->assign('HOST', 	$me->config['host']);
+$template->assign('BASEDN',	$me->config['basedn']);
+$template->assign('PORT', 	$me->config['port']);
+$template->assign('LD_ATTR',	$me->config['ld_attr']);
+$template->assign('USE_SSL',	$me->config['use_ssl']);
+$template->assign('LD_BINDPW',	$me->config['ld_bindpw']);
+$template->assign('LD_BINDDN',	$me->config['ld_binddn']);
+
 if (isset($_POST['save'])){
 	$me->config['host'] 	 = $_POST['HOST'];
 	$me->config['basedn']    = $_POST['BASEDN'];
@@ -15,9 +23,9 @@ if (isset($_POST['save'])){
 	$me->config['ld_bindpw'] = $_POST['LD_BINDPW'];
 
 	if (isset($_POST['USE_SSL'])){
-		$me->config['use_ssl'] = 1;
+		$me->config['use_ssl'] = True;
 	} else {
-		$me->config['use_ssl'] = 0;
+		$me->config['use_ssl'] = False;
 	}
 }
 
@@ -38,11 +46,6 @@ $error = $me->check_ldap();
 	$template->assign('LD_CHECK_LDAP','<p style="color:red;">Error :'.$error.' test '.$me->config['uri'].' '.$check.'</p>');
 	}
 }
-
-$template->assign('HOST', 	$me->config['host']);
-$template->assign('BASEDN',	$me->config['basedn']);
-$template->assign('PORT', 	$me->config['port']);
-$template->assign('LD_ATTR',	$me->config['ld_attr']);
 
 /*
 if (!empty($me->config['ld_binddn'])) {

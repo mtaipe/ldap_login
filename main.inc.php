@@ -54,8 +54,8 @@ function random_password( $length = 8 ) {
 
 function login($success, $username, $password, $remember_me){
 
-$advertise_admin_new_ldapuser = False;
-$send_password_by_mail_ldap = False;
+//$advertise_admin_new_ldapuser = False;
+//$send_password_by_mail_ldap = False;
 
 	global $conf;
 	
@@ -87,18 +87,35 @@ $query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE
   		return true;
   	}
   	
-  	// if query is empty but ldap auth is done, we can create a piwigo user if it's said so !
+  	// if query is empty but ldap auth is done we can create a piwigo user if it's said so !
   	else {
-  		//trigger_action('login_failure', stripslashes($username));
-  		//return false;
-  		//register_user($_POST['login'],$_POST['password'],$_POST['mail_address'],true,$page['errors'],isset($_POST['send_password_by_mail']));
-  		if ($obj->ldap_mail($username)) {
-			$mail = $ldap->ldap_mail($username);
+		// this is where we check we are allowed to create new users upon that.
+		if ($obj->config['allow_newusers']) {
+			//trigger_action('login_failure', stripslashes($username));
+			//return false;
+			//register_user($_POST['login'],$_POST['password'],$_POST['mail_address'],true,$page['errors'],isset($_POST['send_password_by_mail']));
+			
+			// we got the email address
+			if ($obj->ldap_mail($username)) {
+				$mail = $obj->ldap_mail($username);
+			}
+			else {
+				$mail = $username.'@localhost';
+			}
+			
+			// we register the user in piwigo db
+			register_user($username,
+				random_password(8),
+				$mail,
+				$obj->config['advertise_admin_new_ldapuser'],
+				$page['errors'],
+				$obj->config['send_password_by_mail_ldap']);
+			
+			//and we REALLY log the user as he is now one of our piwigo citizens !
+			log_user($row['id'], $remember_me);
+			trigger_action('login_success', stripslashes($username));
+			return true;
   		}
-  		else {
-			$mail = $username.'@localhost';
-  		}
-  		register_user($username,random_password(8),$mail,$advertise_admin_new_ldapuser,$page['errors'],$send_password_by_mail_ldap);
   	}
 }
 
