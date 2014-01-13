@@ -1,6 +1,9 @@
 <?php
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
+global $template;
+$template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/configuration.tpl') );
+
 $me = get_plugin_data($plugin_id);
 
 if (isset($_POST['save'])){
@@ -36,14 +39,12 @@ $error = $me->check_ldap();
 	}
 }
 
-global $template;
-$template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/ldap_login_plugin_admin.tpl') );
-
 $template->assign('HOST', 	$me->config['host']);
 $template->assign('BASEDN',	$me->config['basedn']);
 $template->assign('PORT', 	$me->config['port']);
 $template->assign('LD_ATTR',	$me->config['ld_attr']);
 
+/*
 if (!empty($me->config['ld_binddn'])) {
 	$template->assign('LD_BINDDN', $me->config['ld_binddn']);
 }
@@ -54,7 +55,7 @@ if (!empty($me->config['ld_bindpw'])) {
 
 if (!empty($me->config['use_ssl']) && $me->config['use_ssl'] == 1){
 	$template->assign('USE_SSL','true');
-}
+} */
 
 $template->assign_var_from_handle( 'ADMIN_CONTENT', 'plugin_admin_content');
 ?>

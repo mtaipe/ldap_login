@@ -1,0 +1,34 @@
+<?php
+defined('LDAP_LOGIN_PATH') or die('Hacking attempt!');
+ 
+global $template, $page, $conf;
+
+if (!$conf['allow_user_registration'])
+{
+  array_push($page['warnings'], l10n('Users are not allowed to register on your gallery. OAuth will not work correctly.'));
+}
+
+
+// get current tab
+$page['tab'] = (isset($_GET['tab'])) ? $_GET['tab'] : $page['tab'] = 'configuration';
+
+// tabsheet
+include_once(PHPWG_ROOT_PATH.'admin/include/tabsheet.class.php');
+$tabsheet = new tabsheet();
+$tabsheet->set_id('ldap_login');
+
+$tabsheet->add('configuration', l10n('Configuration'), LDAP_LOGIN_ADMIN . '-configuration');
+$tabsheet->add('newusers', l10n('New users when ldap auth is successfull'), LDAP_LOGIN_ADMIN . '-newusers');
+$tabsheet->select($page['tab']);
+$tabsheet->assign();
+  
+// include page
+include(LDAP_LOGIN_PATH . 'admin/' . $page['tab'] . '.php');
+
+// template vars
+$template->assign('LDAP_LOGIN_PATH', get_root_url() . LDAP_LOGIN_PATH );
+  
+// send page content
+//$template->assign_var_from_handle('ADMIN_CONTENT', 'ldap_login_content');
+
+?>

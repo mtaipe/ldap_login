@@ -14,6 +14,7 @@ label
 </div>
 
 <form method="post" action="{$TESTPLUGIN_F_ACTION}" class="general">
+
 <fieldset>
 	<legend>{'Ldap_Login Configuration'|@translate}</legend>
 	
@@ -79,4 +80,6 @@ label
 
 </fieldset>
 <p><input type="submit" value="{'Test Settings'|@translate}" name="check_ldap" /></p>
+
+
 </form>

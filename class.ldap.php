@@ -39,7 +39,7 @@ class Ldap {
 		}
 		return true;
 	}
-
+	
 	function load_config()
 	{
 		$x = @file_get_contents( LDAP_LOGIN_PATH.'data.dat' );
@@ -75,9 +75,8 @@ class Ldap {
 		array_push($menu,
 		array(
 		'NAME' => 'Ldap Login',
-		'URL' => get_admin_plugin_menu_link(LDAP_LOGIN_PATH.'/admin/ldap_login_plugin_admin.php') )
+		'URL' => get_admin_plugin_menu_link(LDAP_LOGIN_PATH.'/admin.php') )
 		);
-
 		return $menu;
 	}
 
