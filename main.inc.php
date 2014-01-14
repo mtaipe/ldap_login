@@ -54,21 +54,11 @@ function random_password( $length = 8 ) {
 
 function login($success, $username, $password, $remember_me){
 
-//$advertise_admin_new_ldapuser = False;
-//$send_password_by_mail_ldap = False;
-
 	global $conf;
 	
 	$obj = new Ldap();
 	$obj->load_config();
 	$obj->ldap_conn() or die("Unable to connect LDAP server : ".$ldap->getErrorString());
-
-	/* if (!empty($obj->config['ld_binddn']) && !empty($obj->config['ld_bindpw'])){ // if empty ld_binddn, anonymous search
-		// authentication with rootdn and rootpw for dn search
-		if (!$obj->ldap_bind_as($obj->config['ld_binddn'],$obj->config['ld_bindpw'])){
-			return false;
-		}
-	} */
 
 	if (!$obj->ldap_bind_as($username,$password)){ // bind with userdn
 		trigger_action('login_failure', stripslashes($username));
@@ -91,9 +81,6 @@ $query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE
   	else {
 		// this is where we check we are allowed to create new users upon that.
 		if ($obj->config['allow_newusers']) {
-			//trigger_action('login_failure', stripslashes($username));
-			//return false;
-			//register_user($_POST['login'],$_POST['password'],$_POST['mail_address'],true,$page['errors'],isset($_POST['send_password_by_mail']));
 			
 			// we got the email address
 			if ($obj->ldap_mail($username)) {
@@ -103,19 +90,23 @@ $query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE
 				$mail = $username.'@localhost';
 			}
 			
-			// we register the user in piwigo db
-			register_user($username,
-				random_password(8),
-				$mail,
-				$obj->config['advertise_admin_new_ldapuser'],
-				$page['errors'],
-				$obj->config['send_password_by_mail_ldap']);
-			
-			//and we REALLY log the user as he is now one of our piwigo citizens !
-			log_user($row['id'], $remember_me);
+			// we actually register the new user
+			$page['errors'] = register_user($username,random_password(8),$mail);
+                        
+			// now we fetch again his id in the piwigo db, and we get them, as we just created him !
+			$query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\' ;';
+			$row = pwg_db_fetch_assoc(pwg_query($query));
+
+			log_user($row['id'], False);
 			trigger_action('login_success', stripslashes($username));
+			redirect('profile.php');
 			return true;
-  		}
+		}
+		// else : this is the normal behavior ! user is not created.
+		else {
+		trigger_action('login_failure', stripslashes($username));
+		return false;
+		}
   	}
 }
 
