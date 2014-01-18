@@ -1,58 +1,74 @@
-{literal}
-<style>
-label
-{
-    display: block;
-    width: 250px;
-    float: left;
-}
-</style>
-{/literal}
+<h2>{'Ldap_Login Plugin'|@translate}</h2>
 
-<div class="titrePage">
-	<h2>{'Ldap_Login PlugIn'|@translate}</h2>
-</div>
+<div id="configContent">
+<form method="post" action="{$PLUGIN_ACTION}" class="general">
 
-<form method="post" action="{$TESTPLUGIN_F_ACTION}" class="general">
-
-<fieldset>
-	<legend>{'Ldap_Login Configuration'|@translate}</legend>
-	
 	{if (!extension_loaded('ldap'))}
 		<p style="color:red;">{'Warning: LDAP Extension missing.'|@translate}</p>
 		<br />
 	{/if}
 	
+	<fieldset class="mainConf">
+	<legend>Ldap server host connection</legend>
 	
-    <p>{'If empty, localhost will be used in configuration.'|@translate}</p>
-    <label for="host">{'Ldap server host :'|@translate}</label><input type="text" id="host" name="HOST" value="{$HOST}" />
-    <br /><br />
-
-	<label for="ld_use_ssl">{'Secure connexion ?'|@translate}</label>
-	{if $USE_SSL }
-		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" checked />
-	{else}
-		<input type="checkbox" id="use_ssl" name="USE_SSL" value="{$USE_SSL}" />
-	{/if}
-	<br /><br />
+	<ul>
+		<li>
+			<p>{'If empty, localhost will be used in configuration.'|@translate}</p>
+			<label for="host">{'Ldap server host'|@translate}</label>
+			<br>
+			<input size="70" type="text" id="host" name="HOST" value="{$HOST}" />
+		</li>
+	
+		<li>
+			<label for="ld_use_ssl">
+			{if $LD_USE_SSL }
+				<input type="checkbox" id="ld_use_ssl" name="LD_USE_SSL" value="{$LD_USE_SSL}" checked />
+			{else}
+				<input type="checkbox" id="ld_use_ssl" name="LD_USE_SSL" value="{$LD_USE_SSL}" />
+			{/if}
+			{'Secure connexion'|@translate}</label>
+		</li>
+	
+		<li>
+			<p>{'If empty, standard protocol ports will be used by the software.'|@translate}</p>
+			<label for="port">{'Ldap port'|@translate}</label><input type="text" id="port" name="PORT" value="{$PORT}" />
+		</li>
+	</ul>
+    </fieldset>
     
-    <p>{'If empty, standard protocol ports will be used by the software.'|@translate}</p>
-    <label for="port">{'Ldap port :'|@translate}</label><input type="text" id="port" name="PORT" value="{$PORT}" />
-    <br /><br />
+    <fieldset class="mainConf">
+	<legend>Ldap attributes</legend>
+	<ul>
+		<li>
+			<label for="basedn">{'Base DN'|@translate}</label>
+			<br>
+			<input size="70" type="text" id="basedn" name="BASEDN" value="{$BASEDN}" />
+		</li>
+	
+		<li>
+			<label for="ld_attr">{'Attribute corresponding to the user name'|@translate}</label>
+			<br>
+			<input type="text" id="ld_attr" name="LD_ATTR" value="{$LD_ATTR}" />
+		</li>
+	</ul>
+    </fieldset>
     
-    <label for="basedn">{'Base DN :'|@translate}</label><input type="text" id="basedn" name="BASEDN" value="{$BASEDN}" />
-    <br /><br />
-       
-    <label for="ld_attr">{'Attribute corresponding to the user name :'|@translate}</label><input type="text" id="ld_attr" name="LD_ATTR" value="{$LD_ATTR}" />
-    <br /><br />
-    
-    <p>{'Let the following fields blank if the ldap accept anonymous connections.'|@translate}</p>
-	<label for="ld_binddn">{'Bind DN, field in full ldap style :'|@translate}</label><input type="text" id="ld_binddn" name="LD_BINDDN" value="{$LD_BINDDN}" />
-    <br /><br />
-    
-    <label for="ld_bindpw">{'Bind password :'|@translate}</label><input type="password" id="ld_bindpw" name="LD_BINDPW" />
-    <br /><br />
-    
+    <fieldset class="mainConf">
+	<legend>Ldap connection credentials</legend>
+	<p>{'Let the following fields blank if the ldap accept anonymous connections.'|@translate}</p>
+	<ul>
+		<li>
+			<label for="ld_binddn">{'Bind DN, field in full ldap style'|@translate}</label>
+			<br>
+			<input size="70" type="text" id="ld_binddn" name="LD_BINDDN" value="{$LD_BINDDN}" />
+		</li>
+		
+		<li>
+			<label for="ld_bindpw">{'Bind password'|@translate}</label>
+			<br>
+			<input type="password" id="ld_bindpw" name="LD_BINDPW" />
+		</li>
+	</ul>
 </fieldset>
  
 <p>
@@ -60,26 +76,30 @@ label
 </p>
 </form>
 
-<br />
-
-<form method="post" action="{$TESTPLUGIN_CHECK}" class="general">
-<fieldset>
+<form method="post" action="{$PLUGIN_CHECK}" class="general">
+<fieldset class="mainConf">
 <legend>{'Ldap_Login Test'|@translate}</legend>
-<p>{'Test Credentials'|@translate}</p>
-
-<label for="username">{'Username :'|@translate}</label><input type="text" id="username" name="USERNAME" value="{$USERNAME}" />
-    <br /><br />
-       
-    <label for="ld_attr">{'Your password :'|@translate}</label><input type="password" id="password" name="PASSWORD" value="{$PASSWORD}" />
-    <br /><br />
-
-{if (!empty($LD_CHECK_LDAP))}
+<p>{'You must save the settings with the Save button just up there before testing here.'|@translate}</p>
+	<ul>
+		<li>
+			<label for="username">{'Username'|@translate}</label>
+			<br>
+			<input type="text" id="username" name="USERNAME" value="{$USERNAME}" />
+		</li>
+		
+		<li>
+			<label for="ld_attr">{'Your password'|@translate}</label>
+			<br>
+			<input type="password" id="password" name="PASSWORD" value="{$PASSWORD}" />
+		</li>
+	</ul>
+	
+	{if (!empty($LD_CHECK_LDAP))}
  		{$LD_CHECK_LDAP}
- 		<br />
 	{/if}
 
 </fieldset>
 <p><input type="submit" value="{'Test Settings'|@translate}" name="check_ldap" /></p>
 
-
 </form>
+</div>

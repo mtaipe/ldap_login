@@ -3,6 +3,10 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 global $template;
 $template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/newusers.tpl') );
+$template->assign(
+  array(
+    'PLUGIN_NEWUSERS' => get_root_url().'/plugins/ldap_login/admin/newusers.php',
+    ));
 
 $me = get_plugin_data($plugin_id);
 

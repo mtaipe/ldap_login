@@ -3,14 +3,19 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 global $template;
 $template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/configuration.tpl') );
+$template->assign(
+  array(
+    'PLUGIN_ACTION' => get_root_url().'admin.php?page=plugin-ldap_login-configuration',
+    'PLUGIN_CHECK' => get_root_url().'admin.php?page=plugin-ldap_login-configuration',
+    ));
 
 $me = get_plugin_data($plugin_id);
 
 $template->assign('HOST', 	$me->config['host']);
-$template->assign('BASEDN',	$me->config['basedn']);
+$template->assign('BASEDN',	$me->config['basedn']); // racine !
 $template->assign('PORT', 	$me->config['port']);
 $template->assign('LD_ATTR',	$me->config['ld_attr']);
-$template->assign('USE_SSL',	$me->config['use_ssl']);
+$template->assign('LD_USE_SSL',	$me->config['ld_use_ssl']);
 $template->assign('LD_BINDPW',	$me->config['ld_bindpw']);
 $template->assign('LD_BINDDN',	$me->config['ld_binddn']);
 
@@ -22,10 +27,10 @@ if (isset($_POST['save'])){
 	$me->config['ld_binddn'] = $_POST['LD_BINDDN'];
 	$me->config['ld_bindpw'] = $_POST['LD_BINDPW'];
 
-	if (isset($_POST['USE_SSL'])){
-		$me->config['use_ssl'] = True;
+	if (isset($_POST['LD_USE_SSL'])){
+		$me->config['ld_use_ssl'] = True;
 	} else {
-		$me->config['use_ssl'] = False;
+		$me->config['ld_use_ssl'] = False;
 	}
 }
 

@@ -3,12 +3,6 @@ defined('LDAP_LOGIN_PATH') or die('Hacking attempt!');
  
 global $template, $page, $conf;
 
-if (!$conf['allow_user_registration'])
-{
-  array_push($page['warnings'], l10n('Users are not allowed to register on your gallery. OAuth will not work correctly.'));
-}
-
-
 // get current tab
 $page['tab'] = (isset($_GET['tab'])) ? $_GET['tab'] : $page['tab'] = 'configuration';
 

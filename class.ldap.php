@@ -162,6 +162,20 @@ class Ldap {
 		}
 		return false;
 	} */
+	
+	
+	public function getAttr() {
+	$search = @ldap_read($this->cnx, "cn=subschema", "(objectClass=*)", array('*', 'subschemasubentry'));
+	$entries = @ldap_get_entries($this->cnx, $search);
+	echo count($entries);
+	}
+	
+	public function getRootDse() {
+
+        $search = @ldap_read($this->cnx, NULL, 'objectClass=*', array("*", "+"));
+        $entries = @ldap_get_entries($this->cnx, $search);
+        return $entries[0];
+	}
 
 
 	public function ldap_check_basedn(){
