@@ -42,24 +42,27 @@ class Ldap {
 	
 	function load_config()
 	{
+		// init to defaults
+		$this->config['host'] = 'localhost';
+		$this->config['basedn'] = 'ou=people,dc=example,dc=com'; // racine !
+		$this->config['port'] = ''; // if port is empty, I count on the software to care of it !
+		$this->config['ld_attr'] = 'uid';
+		$this->config['ld_use_ssl'] = False;
+		$this->config['ld_bindpw'] ='';
+		$this->config['ld_binddn'] ='';
+		
+		$this->config['allow_newusers'] = False;
+		$this->config['advertise_admin_new_ldapuser'] = False;
+		$this->config['send_password_by_mail_ldap'] = False;
+		
+		echo $this->config['send_password_by_mail_ldap'];
+		// fetch the actual config
 		$x = @file_get_contents( LDAP_LOGIN_PATH.'data.dat' );
 		if ($x!==false)
 		{
 			$c = unserialize($x);
 			// do some more tests here
 			$this->config = $c;
-		}
-
-			// if port is empty, I count on the software to care of it !
-		//if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
-		if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
-		
-		if ( !isset($this->config))
-		{
-			//if (empty($this->config['port'])){ 	$this->config['port'] = 389; }
-			if (empty($this->config['host'])){	$this->config['host'] = 'localhost'; }
-			if (empty($this->config['basedn'])){	$this->config['basedn'] = 'ou=people,dc=example,dc=com'; }
-			if (empty($this->config['ld_attr'])){   $this->config['ld_attr']  = 'uid'; }
 		}
 	}
 

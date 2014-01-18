@@ -11,6 +11,7 @@ ___________________________________
 Language Name: English [UK]
 */
 
+$lang['All LDAP users can use their ldap password everywhere on piwigo if needed.'] = 'All LDAP users can use their ldap password everywhere on piwigo if needed.';
 $lang['New users when ldap auth is successfull'] = 'New users when ldap auth is successfull';
 $lang['Ldap_Login Plugin'] = 'Ldap_Login Plugin';
 $lang['Ldap_Login configuration'] = 'Ldap_Login configuration';
@@ -18,21 +19,24 @@ $lang['Warning: LDAP Extension missing.'] = 'Warning: LDAP Extension missing.';
 
 // ldap server connection
 
+$lang['Ldap server host connection'] = 'Ldap server connection';
 $lang['If empty, standard protocol ports will be used by the software.'] = 'If empty, standard protocol ports will be used by the software.';
-$lang['If empty, localhost will be used in configuration.'] = 'If empty, localhost will be used in configuration.';
+$lang['If empty, localhost and standard protocol ports will be used in configuration.'] = 'If empty, localhost and standard protocol ports will be used in configuration.';
 $lang['Ldap server host'] = 'Ldap server host';
 $lang['Secure connexion'] = 'Secure connexion (ldaps)';
 $lang['Ldap port'] = 'Ldap port';
 
 // ldap attributes
 
+$lang['Ldap attributes'] = 'Ldap attributes';
 $lang['Base DN'] = 'Base DN where ldap users should be found (ex : ou=users,dc=example,dc=com) :';
 $lang['Ldap filter :'] = 'Ldap filter :';
 $lang['Attribute corresponding to the user name'] = 'Attribute corresponding to the user name';
 
 // ldap connection credentials
 
-$lang['Let the following fields blank if the ldap accept anonymous connections.'] = 'Let the following fields blank if the ldap accept anonymous connections.';
+$lang['Ldap connection credentials'] = 'Ldap connection credentials';
+$lang['Let the fields blank if the ldap accept anonymous connections.'] = 'Let the fields blank if the ldap accept anonymous connections.';
 $lang['Bind DN, field in full ldap style'] = 'Bind DN in ldap style (for ex : cn=admin,dc=example,dc=com).';
 $lang['Bind password'] = 'Bind password';
 
@@ -47,5 +51,9 @@ $lang['Test Settings'] = 'Test settings';
 
 // new piwigo users
 
+$lang['Do you want admins to be advertised by mail in case of new users creation upon ldap login ?'] = 'Do you want admins to be advertised by mail in case of new users creation upon ldap login ?';
 $lang['Do you want to send mail to the new users, like casual piwigo users receive ?'] = 'Do you want to send mail to the new users, like casual piwigo users receive ?';
+$lang['Do you allow new piwigo users to be created when users authenticate succesfully on the ldap ?'] = 'Do you allow new piwigo users to be created when users authenticate succesfully on the ldap ?';
+$lang['Do you want admins to be advertised by mail in case of new users creation upon ldap login ?'] = 'Do you want admins to be advertised by mail in case of new users creation upon ldap login ?';
+
 ?>

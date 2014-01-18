@@ -1,6 +1,9 @@
 <h2>{'Ldap_Login Plugin'|@translate}</h2>
 
 <div id="configContent">
+
+<p>{'All LDAP users can use their ldap password everywhere on piwigo if needed.'|@translate}</p>
+
 <form method="post" action="{$PLUGIN_ACTION}" class="general">
 
 	{if (!extension_loaded('ldap'))}
@@ -9,11 +12,10 @@
 	{/if}
 	
 	<fieldset class="mainConf">
-	<legend>Ldap server host connection</legend>
+	<legend>{'Ldap server host connection'|@translate}</legend>
 	
 	<ul>
 		<li>
-			<p>{'If empty, localhost will be used in configuration.'|@translate}</p>
 			<label for="host">{'Ldap server host'|@translate}</label>
 			<br>
 			<input size="70" type="text" id="host" name="HOST" value="{$HOST}" />
@@ -30,14 +32,16 @@
 		</li>
 	
 		<li>
-			<p>{'If empty, standard protocol ports will be used by the software.'|@translate}</p>
-			<label for="port">{'Ldap port'|@translate}</label><input type="text" id="port" name="PORT" value="{$PORT}" />
+			<label for="port">{'Ldap port'|@translate}</label>
+			<br>
+			<input type="text" id="port" name="PORT" value="{$PORT}" />
 		</li>
 	</ul>
+	<i>{'If empty, localhost and standard protocol ports will be used in configuration.'|@translate}</i>
     </fieldset>
     
     <fieldset class="mainConf">
-	<legend>Ldap attributes</legend>
+	<legend>{'Ldap attributes'|@translate}</legend>
 	<ul>
 		<li>
 			<label for="basedn">{'Base DN'|@translate}</label>
@@ -54,8 +58,7 @@
     </fieldset>
     
     <fieldset class="mainConf">
-	<legend>Ldap connection credentials</legend>
-	<p>{'Let the following fields blank if the ldap accept anonymous connections.'|@translate}</p>
+	<legend>{'Ldap connection credentials'|@translate}</legend>
 	<ul>
 		<li>
 			<label for="ld_binddn">{'Bind DN, field in full ldap style'|@translate}</label>
@@ -69,6 +72,7 @@
 			<input type="password" id="ld_bindpw" name="LD_BINDPW" />
 		</li>
 	</ul>
+	<i>{'Let the fields blank if the ldap accept anonymous connections.'|@translate}</i>
 </fieldset>
  
 <p>
@@ -79,7 +83,7 @@
 <form method="post" action="{$PLUGIN_CHECK}" class="general">
 <fieldset class="mainConf">
 <legend>{'Ldap_Login Test'|@translate}</legend>
-<p>{'You must save the settings with the Save button just up there before testing here.'|@translate}</p>
+<i>{'You must save the settings with the Save button just up there before testing here.'|@translate}</i>
 	<ul>
 		<li>
 			<label for="username">{'Username'|@translate}</label>

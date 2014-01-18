@@ -23,7 +23,7 @@ include_once(LDAP_LOGIN_PATH.'/class.ldap.php');
 // | Event handlers                                                        |
 // +-----------------------------------------------------------------------+
 
-add_event_handler('init', 'ldap_login_load_language');
+add_event_handler('init', 'ld_init');
 
 add_event_handler('try_log_user','login', 0, 4);
 
@@ -42,15 +42,16 @@ unset($ldap);
 // | functions                                                             |
 // +-----------------------------------------------------------------------+
 
-function ldap_login_load_language(){
-	load_language('plugin.lang', LDAP_LOGIN_PATH);
-}
-
 function random_password( $length = 8 ) {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
     $password = substr( str_shuffle( $chars ), 0, $length );
     return $password;
 }
+
+function ld_init(){
+	load_language('plugin.lang', LDAP_LOGIN_PATH);
+}
+
 
 function login($success, $username, $password, $remember_me){
 
@@ -87,17 +88,17 @@ $query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE
 				$mail = $obj->ldap_mail($username);
 			}
 			else {
-				$mail = $username.'@localhost';
+				$mail = NULL;
 			}
 			
 			// we actually register the new user
-			$page['errors'] = register_user($username,random_password(8),$mail);
+			$new_id = register_user($username,random_password(8),$mail);
                         
 			// now we fetch again his id in the piwigo db, and we get them, as we just created him !
-			$query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\' ;';
-			$row = pwg_db_fetch_assoc(pwg_query($query));
+			//$query = 'SELECT '.$conf['user_fields']['id'].' AS id FROM '.USERS_TABLE.' WHERE '.$conf['user_fields']['username'].' = \''.pwg_db_real_escape_string($username).'\' ;';
+			//$row = pwg_db_fetch_assoc(pwg_query($query));
 
-			log_user($row['id'], False);
+			log_user($new_id, False);
 			trigger_action('login_success', stripslashes($username));
 			redirect('profile.php');
 			return true;

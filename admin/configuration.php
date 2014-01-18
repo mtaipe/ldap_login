@@ -9,7 +9,9 @@ $template->assign(
     'PLUGIN_CHECK' => get_root_url().'admin.php?page=plugin-ldap_login-configuration',
     ));
 
-$me = get_plugin_data($plugin_id);
+$me = new Ldap();
+$me->load_config();
+//$me = get_plugin_data($plugin_id);
 
 $template->assign('HOST', 	$me->config['host']);
 $template->assign('BASEDN',	$me->config['basedn']); // racine !
@@ -51,19 +53,6 @@ $error = $me->check_ldap();
 	$template->assign('LD_CHECK_LDAP','<p style="color:red;">Error :'.$error.' test '.$me->config['uri'].' '.$check.'</p>');
 	}
 }
-
-/*
-if (!empty($me->config['ld_binddn'])) {
-	$template->assign('LD_BINDDN', $me->config['ld_binddn']);
-}
-
-if (!empty($me->config['ld_bindpw'])) {
-	$template->assign('LD_BINDPW', $me->config['ld_bindpw']);
-}
-
-if (!empty($me->config['use_ssl']) && $me->config['use_ssl'] == 1){
-	$template->assign('USE_SSL','true');
-} */
 
 $template->assign_var_from_handle( 'ADMIN_CONTENT', 'plugin_admin_content');
 ?>

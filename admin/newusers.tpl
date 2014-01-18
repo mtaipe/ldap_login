@@ -13,6 +13,7 @@ label
 	<h2>{'Ldap_Login Plugin'|@translate}</h2>
 </div>
 
+<i>{"If the LDAP doesn't furnish the mail address, users can set it up in the profile page."|@translate}</i>
 <form method="post" action="{$PLUGIN_NEWUSERS}" class="general">
 
 <fieldset>

@@ -22,7 +22,4 @@ include(LDAP_LOGIN_PATH . 'admin/' . $page['tab'] . '.php');
 // template vars
 $template->assign('LDAP_LOGIN_PATH', get_root_url() . LDAP_LOGIN_PATH );
   
-// send page content
-//$template->assign_var_from_handle('ADMIN_CONTENT', 'ldap_login_content');
-
 ?>
