@@ -1,0 +1,10 @@
+Ldap_Login is a piwigo plugin to allow people to connect and get access to a piwigo website with their Ldap credentials.
+
+There is an option to allow creation of new users if they are granted access by ldap but don't exist in Piwigo DB.
+
+I have lost interest in this plugin, since my aims (use of ldap credentials) have reached since the first release.
+Thus, I stop developping it, or just to maintain compatibility with the current piwigo.
+
+Yet, if one wants to improve, include new functions, I would be really glad to work with him/her, as it's what I miss: new ideas, encouragements, motivation, new skills and testing.
+
+If then, please contact me: stephane @ 22decembre.eu.

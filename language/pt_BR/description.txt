@@ -1,0 +1,1 @@
+Permitir fazer o login de usuários Piwigo com suas credenciais ldap (login, correio ou outro atributo especificado por admins Piwigo + senha LDAP).

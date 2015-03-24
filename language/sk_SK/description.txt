@@ -1,0 +1,1 @@
+Umožní používateľom prihlásiť sa do Piwigo s ich ldap povereniami (prihlásenie, pošta, alebo iný atribút určený Piwigo adminmi + ldap heslo).

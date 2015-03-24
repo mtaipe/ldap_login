@@ -1,0 +1,1 @@
+ļauj piwigo lietotājiem ielogoties ar viņu ldap pilnvarām (logins, e-pasts vai cits piwigo administratora dotais atribūts + ldap parole). 

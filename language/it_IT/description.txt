@@ -1,0 +1,1 @@
+Consentire il login agli utenti Piwigo con le proprie credenziali LDAP (login, mail o altro attributo specificato dagli amministratori Piwigo + password LDAP).
