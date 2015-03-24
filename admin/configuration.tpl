@@ -66,7 +66,19 @@
 			{/if}
 			{'Search Ldap users ?'|@translate}</label>
 		</li>
-		
+	</ul>
+	<i>{'If empty, localhost and standard protocol ports will be used in configuration.'|@translate}</i>
+    </fieldset>
+    
+    <fieldset class="mainConf">
+	<legend>{'Ldap attributes'|@translate}</legend>
+	<ul>
+		<li>
+			<label for="basedn">{'Base DN'|@translate}</label>
+			<br>
+			<input size="70" type="text" id="basedn" name="BASEDN" value="{$BASEDN}" />
+		</li>
+	
 		<li>
 			<label for="ld_attr">{'Attribute corresponding to the user name'|@translate}</label>
 			<br>
@@ -125,7 +137,8 @@
     </fieldset>
     
     <fieldset class="mainConf">
-	<legend>{'Ldap connection credentials'|@translate}</legend>
+
+    <legend>{'Ldap connection credentials'|@translate}</legend>
 	<ul>
 		<li>
 			<label for="ld_binddn">{'Bind DN, field in full ldap style'|@translate}</label>

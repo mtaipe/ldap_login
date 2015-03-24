@@ -11,14 +11,13 @@ global $template;
 $template->set_filenames( array('plugin_admin_content' => dirname(__FILE__).'/configuration.tpl') );
 $template->assign(
   array(
-    'PLUGIN_ACTION' => get_root_url().'admin.php?page=plugin-Ldap_Login-configuration',
-    'PLUGIN_CHECK' => get_root_url().'admin.php?page=plugin-Ldap_Login-configuration',
+    'PLUGIN_ACTION' => get_root_url().'admin.php?page=plugin-ldap_login-configuration',
+    'PLUGIN_CHECK' => get_root_url().'admin.php?page=plugin-ldap_login-configuration',
     ));
 
 $me = new Ldap();
 $me->load_config();
 $me->ldap_conn();
-//$me = get_plugin_data($plugin_id);
 
 // we start the template generation by feeding with the settings (defaults or read from config).
 $template->assign('HOST', 	$me->config['host']);
@@ -50,6 +49,7 @@ if (isset($_POST['save'])){
 	
 	$me->config['webmasters_group'] = $_POST['WEBMASTERS_GROUP'];
 	$me->config['admins_group'] = $_POST['ADMINS_GROUP'];
+
 
 	if (isset($_POST['LD_USE_SSL'])){
 		$me->config['ld_use_ssl'] = True;

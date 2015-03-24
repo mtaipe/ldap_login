@@ -1,7 +1,6 @@
 <?php
 /*
 Plugin Name: Ldap_Login
-Version: 1.0.1
 Description: Permet de se logger via une authentification ldap
 Plugin URI: http://www.22decembre.eu
 Author: 22decembre
@@ -14,6 +13,7 @@ Language Name: Français [FR]
 $lang['All LDAP users can use their ldap password everywhere on piwigo if needed.'] = 'Les utilisateurs ldap peuvent utiler leur mot de passe ldap partout où necessaire dans cette galerie piwigo.';
 $lang['New users when ldap auth is successfull'] = 'Nouveaux utilisateurs piwigo en cas de connection LDAP';
 $lang['Ldap_Login Plugin'] = 'Ldap_Login Plugin';
+$lang['Ldap_Login Plugin configuration'] = 'Configuration du plugin Ldap_Login';
 $lang['Warning: LDAP Extension missing.'] = 'Attention: Extension LDAP manquante.';
 
 // ldap server connection
@@ -47,6 +47,7 @@ $lang['If you create a <a href="admin.php?page=group_list">piwigo group</a> with
 	= 'Si vous créez un <a href="admin.php?page=group_list">groupe piwigo</a> avec le même nom qu\'un groupe ldap, tous les membres de ce groupe ldap seront membres du groupe piwigo à leur prochaine connexion. Ceci vous permet de mettre en place des <a href="admin.php?page=help&section=groups">contrôles d\'accès</a>. Pour enlever les utilisateurs de ces groupes, ils doivent d\'abord être enlevés des groupes ldap, ensuite seulement des groupes piwigo.';
 $lang['To get them out of these roles, they must be sorted of the ldap group and then role updated in the <a href="admin.php?page=user_list">piwigo admin</a>. If a group is mandatory as described in the <a href="admin.php?page=plugin-Ldap_Login-newusers">new piwigo users tab</a>, then they must also belong to the users group.']
 	= 'Pour retirer ces droits d\'administration, vous devez enlever ces utilisateurs du groupe ldap puis mettre à jour leur role dans la <a href="admin.php?page=user_list">config piwigo</a>. Si l\'appartenance à un groupe est obligatoire comme indiqué dans <a href="admin.php?page=plugin-Ldap_Login-newusers">l\'onglet nouveaux utilisateurs</a>, alors les administrateurs et webmasters ldap doivent aussi appartenir à ce groupe ldap.';
+
 // ldap connection credentials
 
 $lang['Ldap connection credentials'] = 'Identifiants de connection LDAP';
@@ -65,10 +66,9 @@ $lang['Save'] = 'Enregistrer';
 
 // new piwigo users
 
+$lang['If the LDAP doesn\'t furnish the mail address, users can set it up in the profile page.'] = 'Si le ldap ne fournit pas l\'adresse courriel, les utilisateurs peuvent l\'enregistrer dans la page de profil.';
 $lang['Do you want to send mail to the new users, like casual piwigo users receive ?'] = 'Voulez-vous envoyer le courriel habituel aux nouveaux utilisateurs de Piwigo crées par le plugin ?';
 $lang['Do you allow new piwigo users to be created when users authenticate succesfully on the ldap ?'] = 'Voulez-vous créer des utilisateurs piwigo lorsque quelqu\'un se connecte avec des identifiants ldap valides ?';
 $lang['Do you want admins to be advertised by mail in case of new users creation upon ldap login ?'] = 'Voulez-vous que les administrateurs du site soient prévenus lors de ces créations d\'utilisateurs ?';
 
-$lang['Ldap filter :'] = 'Filtre Ldap';
-$lang['Ldap_Login configuration'] = 'Options du plugin Ldap_Login';
 ?>

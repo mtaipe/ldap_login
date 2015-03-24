@@ -1,6 +1,11 @@
 <?php
+<<<<<<< HEAD
 global $conf;
 class Ldap {
+=======
+class Ldap {
+
+>>>>>>> 95bfabcd664aadd7a805767c5d6a580841069ab9
 	var $cnx;
 	var $config;
 
@@ -54,15 +59,7 @@ class Ldap {
 		$this->config['ld_use_ssl'] = False;
 		$this->config['ld_bindpw'] ='';
 		$this->config['ld_binddn'] ='';
-		$this->config['allow_newusers'] = False;
-		$this->config['advertise_admin_new_ldapuser'] = False;
-		$this->config['send_password_by_mail_ldap'] = False;
-		
-		$this->config['users_group'] = False;
-		$this->config['webmasters_group'] = False;
-		$this->config['admins_group'] = False;
-	}
-	
+
 	function load_config(){
 		// first, load the hard coded defaults, then apply the one from the file.
 		// that way, when we begin setting the conf', there is already sane defaults. And there is no holes in it !
@@ -176,6 +173,9 @@ class Ldap {
 	public function ldap_bind_as($user,$user_passwd){
 		$user_passwd = strtr($user_passwd, array("\'"=>"'"));
 		
+
+	// authentication
+	public function ldap_bind_as($user,$user_passwd){
 		if (@ldap_bind($this->cnx,$this->ldap_name($user),$user_passwd)){
 			return true;
 		}
@@ -184,6 +184,7 @@ class Ldap {
 
 	// provide the mail to piwigo when creating the user
 	public function ldap_mail($name){
+	
 		$sr=@ldap_read($this->cnx, $this->ldap_name($name), "(objectclass=*)", array('mail'));
 		$entry = @ldap_get_entries($this->cnx, $sr);
 		
@@ -192,7 +193,7 @@ class Ldap {
 			}
 		return False;
 	}
-	
+
 	// this function must return an array.
 	public function ldap_search_group($to_search){
 		$ld_group = $this->config['ld_group'];
