@@ -185,6 +185,7 @@ function login($success, $username, $password, $remember_me){
 			}
 			$obj->write_log("[login]> Admin_active:" . $obj->config['ld_group_admin_active'] ." is_admin:$admin , WebmasterActive:" . $obj->config['ld_group_webmaster_active'] . " is_webmaster:$webmaster");
 			if (is_null($webmaster) && is_null($admin)) {}//ignore 
+			elseif($webmaster==false && $admin==false) {$status='normal';} //  normal | when NOT webmaster and NOT admin.
 			elseif($webmaster==false && $admin==true) {$status='admin';} //  admin | when NOT webmaster and admin.
 			elseif($webmaster==true && (!is_null($admin))) {$status='webmaster';} // webmaster | when webmaster and whatever value for admin.
 			
