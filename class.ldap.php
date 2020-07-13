@@ -332,6 +332,12 @@ class Ldap {
 	// look for LDAP group membership
 	public function check_ldap_group_membership($user_dn, $user_login,$group_dn=null){
 		$this->write_log("[function]> check_ldap_group_membership");
+
+		//if no group specified and ld_group_user_active says do not check, return true
+		if((is_null($group_dn)) AND ($this->config['ld_group_user_active'] == False)){
+			$this->write_log("[check_ldap_group_membership]> No check needed, ld_group_user_active is 0");
+ 			return true;
+		}
 		$base_dn = $this->config['ld_basedn'];		
 		$group_class = $this->config['ld_group_class'];		
 		$group_filter = strlen($this->config['ld_group_filter'])<1?"cn=*":$this->config['ld_group_filter'];
@@ -341,10 +347,10 @@ class Ldap {
 		$member_attr = $this->config['ld_group_member_attr'];
 		
 
-		//if no group specified return true
-		if((!$group_dn) OR $this->config['ld_group_user_active'] == False){
-			$this->write_log("[check_ldap_group_membership]> No check needed, usergroup inactive or DN empty");
-			return true;
+		//if no group specified return false
+		if(strlen($group_dn)<1){
+			$this->write_log("[check_ldap_group_membership]> No check needed, group DN empty");
+			return false;
 		}
 		if(!$this->cnx){
 			$this->write_log("[check_ldap_group_membership]> Cannot connect to server!");
